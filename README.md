@@ -1,5 +1,5 @@
-# viral-pulse-shadow-reina
-# バイラルパルス シャドウレイナ
+# viral-pulse-shadow-with-reina
+# バイラル　パルス シャドウ ウィズ　レイナ
 
 このプロジェクトは、HTMLベースの物語型ゲームです。  
 画像・音声を含むブラウザゲーム形式で動作します。
