@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>viral pulse shadow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: #39ff14;
+      font-family: 'Source Code Pro', monospace;
+      font-weight: 300;
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    p {
+      max-width: 400px;
+      margin-bottom: 3rem;
+      line-height: 1.5;
+    }
+    a.button {
+      background: none;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      padding: 0.8rem 1.5rem;
+      font-family: 'Source Code Pro', monospace;
+      font-weight: 300;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 0.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      min-width: 120px;
+      display: inline-block;
+      user-select: none;
+      /* pointer-events: none; これを外す */
+      opacity: 0.6; /* 押せそうだけど少し薄い印象 */
+      transition: opacity 0.3s;
+    }
+    a.button:hover {
+      opacity: 1;
+      background-color: #39ff14;
+      color: black;
+    }
+    a.button.disabled {
+      cursor: default;
+      opacity: 0.3;
+    }
+  </style>
+</head>
+<body>
+
+<p>Reina: Can you help me?</p>
+
+<a href="#" id="btnNOVA" class="button">NOVA</a>
+<a href="#" id="btnKAIBA" class="button">KAIBA</a>
+<a href="#" id="btnKOBA" class="button">KOBA</a>
+
+<div id="reinaNetContainer" style="margin-top: 2rem; display: none;">
+  <a href="reinasnet.html" class="button">Reina's Net</a>
+</div>
+
+<script>
+  // 押すべき順番配列
+  const targetSequence = ['KOBA', 'KAIBA', 'NOVA'];
+  let currentIndex = 0;
+
+  function buttonClicked(name) {
+    if (name === targetSequence[currentIndex]) {
+      currentIndex++;
+      if (currentIndex === targetSequence.length) {
+        // 全てのボタンを正しい順で押したらReina's Netを表示
+        document.getElementById('reinaNetContainer').style.display = 'block';
+        // 全ボタンを無効化
+        document.querySelectorAll('.button').forEach(btn => {
+          btn.classList.add('disabled');
+          btn.removeEventListener('click', btn.listener);
+        });
+      }
+    } else {
+      // 順番違う場合はリセット
+      currentIndex = 0;
+    }
+  }
+
+  // イベントリスナー登録
+  document.getElementById('btnNOVA').listener = () => buttonClicked('NOVA');
+  document.getElementById('btnKAIBA').listener = () => buttonClicked('KAIBA');
+  document.getElementById('btnKOBA').listener = () => buttonClicked('KOBA');
+
+  document.getElementById('btnNOVA').addEventListener('click', document.getElementById('btnNOVA').listener);
+  document.getElementById('btnKAIBA').addEventListener('click', document.getElementById('btnKAIBA').listener);
+  document.getElementById('btnKOBA').addEventListener('click', document.getElementById('btnKOBA').listener);
+</script>
+
+</body>
+</html>

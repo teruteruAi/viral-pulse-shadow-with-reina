@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NOVA Memory Recall</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet" />
+<style>
+  body {
+    margin: 0;
+    background-color: black;
+    color: #39ff14;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 300;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  h1 {
+    margin-bottom: 2rem;
+    font-weight: 300;
+    font-size: 2.4rem;
+  }
+  img {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 3rem;
+    border: 2px solid #39ff14;
+    border-radius: 10px;
+  }
+  p {
+    max-width: 400px;
+    margin-bottom: 3rem;
+    line-height: 1.5;
+  }
+  .button-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  a.button {
+    background: none;
+    border: 2px solid #39ff14;
+    color: #39ff14;
+    padding: 0.8rem 1.5rem;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 300;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    min-width: 120px;
+    user-select: none;
+    transition: background-color 0.3s, color 0.3s;
+    display: inline-block;
+    text-align: center;
+  }
+  a.button:hover {
+    background-color: #39ff14;
+    color: black;
+  }
+</style>
+</head>
+<body>
+
+<h1>NOVA Memory Recall</h1>
+
+<img src="images/c.jpg" alt="Memory Photo" />
+
+<p>
+I remembered. My name was Reina.<br />
+If I were to represent myself in ASCII art, it would probably look like this.<br />
+Just like when I play arcade games, important things come back to me when I step away from the problem.
+</p>
+
+<div class="button-container">
+  <a href="nova03.html" class="button">Back</a>
+  <a href="select.html" class="button">Back to Select</a>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    localStorage.setItem('visited_nova04', 'true');
+  });
+</script>
+
+</body>
+</html>

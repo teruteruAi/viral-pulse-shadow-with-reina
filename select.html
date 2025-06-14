@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Select</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet" />
+<style>
+  body {
+    background-color: black;
+    color: #39ff14;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 300;
+    font-size: 1.5rem;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+  }
+  p {
+    max-width: 400px;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column; /* ここを縦並びに */
+    gap: 1rem;
+    width: 200px; /* 幅を揃えるため */
+  }
+  a.button {
+    background: none;
+    border: 2px solid #39ff14;
+    color: #39ff14;
+    padding: 0.8rem 1.5rem;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 300;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 120px;
+    text-align: center;
+  }
+  a.button:hover {
+    background-color: #39ff14;
+    color: black;
+  }
+</style>
+</head>
+<body>
+
+<h1>Select</h1>
+
+<div class="buttons">
+  <a href="nova01.html" class="button">NOVA</a>
+  <a href="kaiba01.html" class="button">KAIBA</a>
+  <a href="koba01.html" class="button">KOBA</a>
+</div>
+
+</body>
+</html>

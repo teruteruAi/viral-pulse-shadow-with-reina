@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>レイナ エンディング</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Comic Neue', cursive, sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      background: #000;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('images/d.jpg') center center / cover no-repeat;
+      z-index: -1;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff0f6;
+      text-shadow: 0 0 10px #f0f;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    #dialogueText {
+      font-size: 2rem;
+      line-height: 2.5rem;
+      max-width: 700px;
+      white-space: pre-wrap;
+      margin-bottom: 3rem;
+    }
+
+    .end-text {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #ffccff;
+      text-shadow: 0 0 12px #f0f, 0 0 20px #f0f;
+    }
+  </style>
+</head>
+<body>
+
+<div class="background"></div>
+
+<div class="overlay">
+  <div id="dialogueText"></div>
+  <div class="end-text">END</div>
+</div>
+
+<!-- BGM（自動再生 & ループ） -->
+<audio id="bgm" src="sounds/ending.mp3" autoplay loop playsinline></audio>
+
+<script>
+  // 音楽再生（自動再生がブロックされても1回クリックで再開）
+  const bgm = document.getElementById('bgm');
+  bgm.volume = 0.6;
+  bgm.play().catch(() => {
+    document.body.addEventListener('click', () => {
+      bgm.play();
+    }, { once: true });
+  });
+
+  // 名前表示
+  const playerName = localStorage.getItem('playerName') || 'あなた';
+  const dialogue =
+    `ジュークから名前聞いておいたの。\n` +
+    `${playerName}、手伝ってくれてありがとう！\n` +
+    `友達待たせてるから飛んで帰るね！\n` +
+    `バイバーイ！`;
+  document.getElementById('dialogueText').textContent = dialogue;
+</script>
+
+</body>
+</html>

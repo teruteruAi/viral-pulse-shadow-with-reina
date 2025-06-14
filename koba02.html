@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KOBA Expertise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: #39ff14;
+      font-family: 'Source Code Pro', monospace;
+      font-weight: 300;
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    p {
+      max-width: 500px;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+    input[type="text"] {
+      background-color: black;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      text-align: center;
+      width: 200px;
+      margin-bottom: 1.5rem;
+    }
+    .button {
+      background: none;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      padding: 0.6rem 1.2rem;
+      font-family: 'Source Code Pro', monospace;
+      font-weight: 300;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      margin: 0.4rem;
+      border-radius: 5px;
+      text-decoration: none;
+      min-width: 120px;
+      display: inline-block;
+    }
+    .button:hover {
+      background-color: #39ff14;
+      color: black;
+    }
+    #nextBtn {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>KOBA Expertise</h1>
+
+  <p>When do I usually get my best ideas?</p>
+
+  <input type="text" id="answerInput" placeholder="Type your answer here" oninput="checkAnswer()" />
+
+  <div>
+    <a href="koba01.html" class="button">Back</a>
+    <a href="select.html" class="button">Back to Select</a>
+    <a href="kaiba02.html" class="button" id="nextBtn">Next</a>
+  </div>
+
+  <script>
+    function checkAnswer() {
+      const input = document.getElementById("answerInput").value.trim().toLowerCase();
+      const nextBtn = document.getElementById("nextBtn");
+      if (input === "arcade") {
+        nextBtn.style.display = "inline-block";
+      } else {
+        nextBtn.style.display = "none";
+      }
+    }
+  </script>
+
+</body>
+</html>

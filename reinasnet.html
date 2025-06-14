@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reina’s Net</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #7e3ff2, #b67aff);
+      color: #fff0f6;
+      font-family: 'Comic Neue', cursive, sans-serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 8px #ff7fff;
+    }
+
+    .content {
+      max-width: 480px;
+      line-height: 2.2;
+      color: #f5d0ff;
+    }
+
+    #mailNotification {
+      margin-top: 2rem;
+      font-size: 1.8rem;
+      color: #fff9;
+      display: none;
+      cursor: pointer;
+      text-shadow: 0 0 5px #fff;
+    }
+
+    #mailList {
+      display: none;
+      margin-top: 2rem;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      max-width: 500px;
+      color: #ffefff;
+    }
+
+    .email-entry {
+      margin-bottom: 0.8rem;
+    }
+
+    .email-link {
+      color: #99f;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    input[type="text"] {
+      margin-top: 2rem;
+      font-size: 1.6rem;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      width: 240px;
+      text-align: center;
+      font-weight: 700;
+      color: #7e3ff2;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 2rem;
+      font-size: 1.6rem;
+      font-weight: 700;
+      background-color: #ff99ff;
+      border: none;
+      border-radius: 12px;
+      color: #7e3ff2;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff66ff;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    button:hover {
+      background-color: #e066ff;
+      color: #fff0f6;
+    }
+
+    #goodbye {
+      margin-top: 3rem;
+      font-size: 1.9rem;
+      color: #fff0f6;
+      display: none;
+      white-space: pre-line;
+    }
+
+    #byeBtn {
+      margin-top: 1.5rem;
+      padding: 0.7rem 2rem;
+      font-size: 1.6rem;
+      font-weight: 700;
+      background-color: #b67aff;
+      border: none;
+      border-radius: 12px;
+      color: #fff0f6;
+      cursor: pointer;
+      box-shadow: 0 0 12px #a157ff;
+      transition: background-color 0.3s, color 0.3s;
+      display: none;
+    }
+
+    #byeBtn:hover {
+      background-color: #7e3ff2;
+      color: #fff0f6;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Reina’s Net</h1>
+
+<div class="content" id="explanation">
+  全て思い出したわ。NOVAはCPU、<br />
+  KAIBAはメモリ、KOBAはストレージの役割を持っていたの。<br />
+  それで私は、このコンピュータにウイルスが入ったから<br />
+  撃退コードを発注したんだけど、現実と私の世界と混在しちゃったの。<br />
+  あー番号が思い出せない。<br />
+  あと少しなのに。。。
+</div>
+
+<!-- メール通知 -->
+<div id="mailNotification">📨 You've got mail! Click to open.</div>
+
+<!-- メールリスト -->
+<div id="mailList">
+  <div class="email-entry">alpha.system@servergrid.net</div>
+  <div class="email-entry">security-alert@matrixguard.org</div>
+  <div class="email-entry"><a class="email-link" href="chord.html">Cyber Express Delivery</a></div>
+  <div class="email-entry">support@neuralcore.io</div>
+  <div class="email-entry">client.bot@junkmailx.biz</div>
+  <div class="email-entry">newsletter@digimind.news</div>
+</div>
+
+<!-- コード入力 -->
+<div>
+  <input type="text" id="codeInput" placeholder="Enter code here" autocomplete="off" />
+</div>
+
+<button id="submitBtn">送信</button>
+
+<div id="message"></div>
+
+<div id="goodbye">
+  あー！そうだった私ったら！<br />
+  ジュークに頼んでたんだわ(^.^)<br /><br />
+  これで私のPCは、<br />
+  完全に治った！<br />
+  ってことは、もう行かなきゃ。<br />
+  私はネットの中の住人。<br />
+  とても楽しかったよ。
+</div>
+
+<button id="byeBtn">さよならを言う</button>
+
+<script>
+  const correctCode = "357djp";
+  const codeInput = document.getElementById('codeInput');
+  const submitBtn = document.getElementById('submitBtn');
+  const message = document.getElementById('message');
+  const explanation = document.getElementById('explanation');
+  const goodbye = document.getElementById('goodbye');
+  const byeBtn = document.getElementById('byeBtn');
+  const mailNotification = document.getElementById('mailNotification');
+  const mailList = document.getElementById('mailList');
+
+  // メール通知表示（10秒後）
+  const mailTimeout = setTimeout(() => {
+    mailNotification.style.display = 'block';
+  }, 10000);
+
+  mailNotification.addEventListener('click', () => {
+    mailNotification.style.display = 'none';
+    mailList.style.display = 'block';
+  });
+
+  submitBtn.addEventListener('click', () => {
+    const userCode = codeInput.value.trim().toLowerCase();
+    if (userCode === correctCode) {
+      // 正解時の処理
+      explanation.style.display = 'none';
+      codeInput.style.display = 'none';
+      submitBtn.style.display = 'none';
+      message.textContent = "";
+      goodbye.style.display = 'block';
+      byeBtn.style.display = 'inline-block';
+
+      // メール通知・リストは隠す
+      mailNotification.style.display = 'none';
+      mailList.style.display = 'none';
+
+      // もしメール通知のタイマーがまだ残っていたらクリア
+      clearTimeout(mailTimeout);
+
+    } else if (userCode === "") {
+      message.textContent = "コードを入力してください。";
+    } else {
+      message.textContent = "コードが違います。もう一度試してね。";
+      codeInput.value = "";
+      codeInput.focus();
+    }
+  });
+
+  codeInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      submitBtn.click();
+    }
+  });
+
+  byeBtn.addEventListener('click', () => {
+    location.href = 'ending.html';
+  });
+</script>
+
+</body>
+</html>

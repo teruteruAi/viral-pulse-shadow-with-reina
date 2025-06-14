@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KAIBA Connect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: #39ff14;
+      font-family: 'Source Code Pro', monospace;
+      font-weight: 300;
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    p {
+      max-width: 500px;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+    }
+    a.button {
+      background: none;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      padding: 0.6rem 1.2rem;
+      font-family: 'Source Code Pro', monospace;
+      font-weight: 300;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      margin: 0.4rem;
+      border-radius: 5px;
+      text-decoration: none;
+      min-width: 120px;
+      display: inline-block;
+    }
+    a.button:hover {
+      background-color: #39ff14;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>KAIBA Connect</h1>
+
+  <p>Wait… KOBA and KAIBA… they were connected, weren’t they?</p>
+
+  <div>
+    <a href="koba02.html" class="button">Back</a>
+    <a href="select.html" class="button">Back to Select</a>
+    <!-- 思い出したボタン（最初は非表示） -->
+    <a href="nova05.html" id="rememberButton" class="button" style="display:none;">I Remember!</a>
+  </div>
+
+  <script>
+    // 15秒後に「I Remember!」ボタンを表示する
+    setTimeout(() => {
+      document.getElementById('rememberButton').style.display = 'inline-block';
+    }, 15000);
+  </script>
+
+</body>
+</html>

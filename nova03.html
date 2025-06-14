@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NOVA Try</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet" />
+<style>
+  body {
+    margin: 0;
+    background-color: black;
+    color: #39ff14;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 300;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    text-align: center;
+    padding: 1rem 0 3rem;
+  }
+  h1 {
+    margin: 1rem 0 2rem;
+  }
+  canvas {
+    background: black;
+    display: block;
+    margin: 0 auto;
+    border: 4px solid #39ff14;
+    border-radius: 8px;
+  }
+  .buttons {
+    margin-top: 2rem;
+  }
+  a.button {
+    background: none;
+    border: 2px solid #39ff14;
+    color: #39ff14;
+    padding: 0.8rem 1.5rem;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 300;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0 0.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    min-width: 120px;
+    display: inline-block;
+  }
+  a.button:hover {
+    background-color: #39ff14;
+    color: black;
+  }
+</style>
+</head>
+<body>
+<h1>NOVA Try</h1>
+<canvas id="gameCanvas" width="520" height="360"></canvas>
+
+<div class="buttons">
+  <a href="select.html" class="button">Back to Select</a>
+  <a href="nova02.html" class="button">Back</a>
+  <a href="nova04.html" class="button" id="nextBtn" style="display:none;">Next</a>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Paddle
+  const paddleHeight = 12;
+  const paddleWidth = 100;
+  const paddleMarginBottom = 40;
+  let paddleX = (canvas.width - paddleWidth) / 2;
+
+  // Ball (heart)
+  const ballRadius = 12;
+  let ballX, ballY;
+  let dx, dy;
+
+  // Blocks
+  const blockRowCount = 3;
+  const blockColumnCount = 4;
+  const blockWidth = 90;
+  const blockHeight = 20;
+  const blockPadding = 30;
+  const blockOffsetTop = 50;
+  const blockOffsetLeft = 50;
+
+  // Game state
+  let rightPressed = false;
+  let leftPressed = false;
+  let clearedCount = 0;
+
+  let blocks = [];
+
+  // Initialize blocks
+  function initBlocks() {
+    blocks = [];
+    for(let c = 0; c < blockColumnCount; c++) {
+      blocks[c] = [];
+      for(let r = 0; r < blockRowCount; r++) {
+        blocks[c][r] = { x: 0, y: 0, status: 1 };
+      }
+    }
+  }
+  initBlocks();
+
+  // Draw heart shape for ball
+  function drawHeart(x, y, size, color) {
+    ctx.save();
+    ctx.beginPath();
+    const topCurveHeight = size * 0.3;
+    ctx.moveTo(x, y + topCurveHeight);
+    ctx.bezierCurveTo(
+      x, y,
+      x - size / 2, y,
+      x - size / 2, y + topCurveHeight
+    );
+    ctx.bezierCurveTo(
+      x - size / 2, y + (size + topCurveHeight) / 2,
+      x, y + (size + topCurveHeight) / 1.5,
+      x, y + size
+    );
+    ctx.bezierCurveTo(
+      x, y + (size + topCurveHeight) / 1.5,
+      x + size / 2, y + (size + topCurveHeight) / 2,
+      x + size / 2, y + topCurveHeight
+    );
+    ctx.bezierCurveTo(
+      x + size / 2, y,
+      x, y,
+      x, y + topCurveHeight
+    );
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // Draw paddle
+  function drawPaddle() {
+    ctx.fillStyle = '#39ff14';
+    ctx.fillRect(paddleX, canvas.height - paddleMarginBottom - paddleHeight, paddleWidth, paddleHeight);
+  }
+
+  // Draw blocks
+  function drawBlocks() {
+    for(let c = 0; c < blockColumnCount; c++) {
+      for(let r = 0; r < blockRowCount; r++) {
+        if(blocks[c][r].status == 1) {
+          let blockX = blockOffsetLeft + c * (blockWidth + blockPadding);
+          let blockY = blockOffsetTop + r * (blockHeight + blockPadding);
+          blocks[c][r].x = blockX;
+          blocks[c][r].y = blockY;
+
+          ctx.fillStyle = '#39ff14';
+          ctx.fillRect(blockX, blockY, blockWidth, blockHeight);
+          ctx.strokeStyle = 'black';
+          ctx.strokeRect(blockX, blockY, blockWidth, blockHeight);
+        }
+      }
+    }
+  }
+
+  // Collision detection with blocks
+  function collisionDetection() {
+    for(let c = 0; c < blockColumnCount; c++) {
+      for(let r = 0; r < blockRowCount; r++) {
+        let b = blocks[c][r];
+        if(b.status == 1) {
+          if(ballX > b.x && ballX < b.x + blockWidth &&
+             ballY > b.y && ballY < b.y + blockHeight) {
+            dy = -dy;
+            b.status = 0;
+
+            if(allBlocksCleared()) {
+              clearedCount++;
+              if(clearedCount >= 3) {
+                document.getElementById('nextBtn').style.display = 'inline-block';
+              }
+              resetBallAndPaddle();
+              initBlocks();
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Check if all blocks cleared
+  function allBlocksCleared() {
+    for(let c = 0; c < blockColumnCount; c++) {
+      for(let r = 0; r < blockRowCount; r++) {
+        if(blocks[c][r].status == 1) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // Reset ball and paddle position and ball speed
+  function resetBallAndPaddle() {
+    ballX = canvas.width / 2;
+    ballY = canvas.height - paddleMarginBottom - paddleHeight - ballRadius - 2;
+    dx = (Math.random() < 0.5 ? -2 : 2);
+    dy = -3;
+    paddleX = (canvas.width - paddleWidth) / 2;
+  }
+
+  resetBallAndPaddle();
+
+  // Draw everything
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBlocks();
+    drawPaddle();
+    drawHeart(ballX, ballY - 10, ballRadius * 2, '#39ff14');
+    collisionDetection();
+
+    // Wall collision left/right
+    if(ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
+      dx = -dx;
+    }
+    // Ceiling collision
+    if(ballY + dy < ballRadius) {
+      dy = -dy;
+    } else if(ballY + dy > canvas.height - paddleMarginBottom - paddleHeight) {
+      // Paddle collision
+      if(ballX > paddleX && ballX < paddleX + paddleWidth) {
+        dy = -dy;
+      } else {
+        // Missed paddle - reset blocks & ball but keep clearedCount
+        resetBallAndPaddle();
+        initBlocks();
+      }
+    }
+
+    // Move ball
+    ballX += dx;
+    ballY += dy;
+
+    // Paddle movement with keys
+    if(rightPressed && paddleX < canvas.width - paddleWidth) {
+      paddleX += 7;
+    }
+    if(leftPressed && paddleX > 0) {
+      paddleX -= 7;
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  // Keyboard controls
+  document.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight' || e.key === 'Right') rightPressed = true;
+    if(e.key === 'ArrowLeft' || e.key === 'Left') leftPressed = true;
+  });
+  document.addEventListener('keyup', e => {
+    if(e.key === 'ArrowRight' || e.key === 'Right') rightPressed = false;
+    if(e.key === 'ArrowLeft' || e.key === 'Left') leftPressed = false;
+  });
+
+  // Mouse control
+  document.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const relativeX = e.clientX - rect.left;
+    if(relativeX > 0 && relativeX < canvas.width) {
+      paddleX = relativeX - paddleWidth / 2;
+      if(paddleX < 0) paddleX = 0;
+      if(paddleX + paddleWidth > canvas.width) paddleX = canvas.width - paddleWidth;
+    }
+  });
+
+  draw();
+})();
+</script>
+</body>
+</html>

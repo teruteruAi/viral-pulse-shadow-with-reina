@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ウイルス撃退コードお届け</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #0e0e0e, #1a1a1a);
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+    }
+    .robot {
+      font-size: 1.5rem;
+      background: linear-gradient(45deg, #f0f, #0ff, #ff0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+      margin-bottom: 2rem;
+    }
+    .city {
+      background: url('https://images.unsplash.com/photo-1506459225024-1428097a7e18?auto=format&fit=crop&w=1280&q=80') no-repeat center center/cover;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      filter: blur(2px) brightness(0.4);
+    }
+    input {
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      border: none;
+      width: 60%;
+      text-align: center;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #ff66cc;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #cc3399;
+    }
+    .link-button {
+      display: block;
+      margin-top: 2rem;
+      color: #00ffff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="city"></div>
+
+<div class="robot" id="robotText">
+  配達完了。<br><br>
+  私、サイバー宅急便「パイナップルエリア」担当のジュークと申します。<br><br>
+  ご注文のウイルス撃退コードをお届けに参りました。<br><br>
+  ……レイナさん？……ではないようですね。<br>
+  代理人様の受け取りですね。<br><br>
+  ではこちらにお名前をご記入ください。
+</div>
+
+<input type="text" id="playerName" placeholder="あなたの名前を入力" />
+<br>
+<button onclick="deliverCode()">サインして受け取る</button>
+
+<div id="codeArea" style="margin-top: 2rem; font-size: 1.4rem;"></div>
+
+<script>
+  function deliverCode() {
+    const name = document.getElementById('playerName').value.trim();
+    if (name === "") {
+      alert("名前を入力してください。");
+      return;
+    }
+
+    localStorage.setItem("playerName", name); // reinasnet.htmlやending.htmlで使う用
+
+    const codeArea = document.getElementById('codeArea');
+    codeArea.innerHTML = `
+      ${name} 様、サインありがとうございます。<br><br>
+      ご注文のウイルス撃退コードは：<br>
+      <span style="font-size: 2rem; color: #00ffcc;">357djp</span><br><br>
+      お間違えのないよう、お使いください。<br><br>
+      <a class="link-button" href="reinasnet.html">→ Reina's Net へ戻る</a>
+    `;
+  }
+</script>
+
+</body>
+</html>
